@@ -12,11 +12,21 @@ class Forum {
 }
 
 final fortniteForum = Forum(
-
+    title: "Fortnite",
+    imagePath: "assets/fortnite.jpg",
+    rank: "32",
+    subs: "500+",
+    threads: "120",
+    topics: fortniteTopics
 );
 
 final pubgForum = Forum(
-  
+    title: "PUBG",
+    imagePath: "assets/pubg.jpg",
+    rank: "25",
+    subs: "500+",
+    threads: "88",
+    topics: pubgTopics
 );
 
 final forums = [

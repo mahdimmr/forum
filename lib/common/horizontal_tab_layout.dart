@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:game_forum/common/forum_card.dart';
 import 'package:game_forum/common/tab_text.dart';
-import 'package:game_forum/styleguide/text_style.dart';
+import 'package:game_forum/modal/forum.dart';
 
 class HorizontalTab extends StatefulWidget {
   @override
@@ -20,6 +22,7 @@ class _HorizontalTabState extends State<HorizontalTab> {
             left: -20,
             bottom: 0,
             top: 0,
+            width: 110.0,
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 48.0),
               child: Column(
@@ -47,6 +50,16 @@ class _HorizontalTabState extends State<HorizontalTab> {
               ),
             ),
           ),
+          Padding(
+            padding: const EdgeInsets.only(left: 65.0),
+            child: ListView(
+              scrollDirection: Axis.horizontal,
+              children: <Widget>[
+                ForumCard(forum: fortniteForum),
+                ForumCard(forum: pubgForum)
+              ],
+            ),
+          )
         ],
       ),
     );
