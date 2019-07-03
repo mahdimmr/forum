@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:game_forum/common/forum_details_widget.dart';
 import 'package:game_forum/modal/forum.dart';
 import 'package:game_forum/common/forum_name_widget.dart';
 
@@ -27,8 +28,14 @@ class ForumCard extends StatelessWidget {
               ),
               Positioned(
                 left: 0,
+                right: 0,
+                bottom: 0,
+                child: ForumDetailsWidget(forum: forum),
+              ),
+              Positioned(
+                left: 0,
                 bottom: 70.0,
-                child: ForumNameWidget(forum: forum)),
+                child: ForumNameWidget(forum: forum)),              
             ],
           ),
         ),
