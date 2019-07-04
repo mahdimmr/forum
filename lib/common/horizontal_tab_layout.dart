@@ -9,8 +9,27 @@ class HorizontalTab extends StatefulWidget {
   _HorizontalTabState createState() => _HorizontalTabState();
 }
 
-class _HorizontalTabState extends State<HorizontalTab> {
-  int selectedTabIndex = 1;
+class _HorizontalTabState extends State<HorizontalTab>
+    with SingleTickerProviderStateMixin {
+  int selectedTabIndex = 0;
+  AnimationController _controler;
+  Animation<Offset> _animation;
+  Animation<double> _fadeAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controler = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 1000));
+    _animation = Tween<Offset>(begin: Offset(0, 0), end: Offset(-0.05, 0))
+        .animate(_controler);
+    _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(_controler);
+  }
+
+  playAnimation() {
+    _controler.reset();
+    _controler.forward();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +43,7 @@ class _HorizontalTabState extends State<HorizontalTab> {
             top: 0,
             width: 110.0,
             child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 48.0),
+              padding: const EdgeInsets.symmetric(vertical: 80.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
@@ -52,17 +71,43 @@ class _HorizontalTabState extends State<HorizontalTab> {
           ),
           Padding(
             padding: const EdgeInsets.only(left: 65.0),
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: <Widget>[
-                ForumCard(forum: fortniteForum),
-                ForumCard(forum: pubgForum)
-              ],
+            child: FutureBuilder(
+              future: playAnimation(),
+              builder: (context, snapshot) {
+                return FadeTransition(
+                  opacity: _fadeAnimation,
+                  child: SlideTransition(
+                    position: _animation,
+                    child: ListView(
+                      scrollDirection: Axis.horizontal,
+                      children: getList(selectedTabIndex),
+                    ),
+                  ),
+                );
+              },
             ),
           )
         ],
       ),
     );
+  }
+
+  List<Widget> getList(index) {
+    return [
+      [
+        ForumCard(forum: fortniteForum),
+        ForumCard(forum: pubgForum),
+        ForumCard(forum: fortniteForum),
+      ],
+      [
+        ForumCard(forum: fortniteForum),
+        ForumCard(forum: fortniteForum),
+        ForumCard(forum: pubgForum)
+      ],
+      [
+        ForumCard(forum: fortniteForum),
+      ],
+    ][index];
   }
 
   onTapTab(int index) {
